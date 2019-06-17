@@ -1,0 +1,22 @@
+{
+  "name": "rest-shop-homework",
+  "version": "1.0.0",
+  "description": "node-rest-shop-homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infinitybrad/node-rest-shop-homework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/infinitybrad/node-rest-shop-homework/issues"
+  },
+  "homepage": "https://github.com/infinitybrad/node-rest-shop-homework#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
