@@ -10,8 +10,16 @@ router.get('/',(req,res) => {
 });
 //data create
 router.post ('/',(req,res) => {
-    res.status(200).json({
-        msg : 'creat product'
+
+
+    const product = {
+        name:req.body.n,
+        price:req.body.p
+    };
+
+    res.status(201).json({
+        msg : 'creat product',
+        productInfo:product
     });
 });
 //data patch
