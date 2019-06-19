@@ -13,8 +13,8 @@ router.post ('/',(req,res) => {
 
 
     const product = {
-        name:req.body.n,
-        price:req.body.p
+        na:req.body.n,
+        pr:req.body.p
     };
 
     res.status(201).json({
