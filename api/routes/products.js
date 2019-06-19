@@ -93,10 +93,31 @@ router.post ('/',(req,res) => {
         });
 });
 //data patch
-router.patch('/',(req,res) =>{
-    res.status(200).json({
-        msg:'modify product'
-    });
+router.patch('/:pID',(req,res) =>{
+    // res.status(200).json({
+    //     msg:'modify product'
+    // });
+    const id = req.params.pID;
+
+    const updateOps={};
+
+    for(const ops of req.body){
+        updateOps[ops.propName] = ops.value;
+    }
+
+    productModel
+        .update({_id:id},{$set:updateOps})
+        .exec()
+        .then(result =>{
+            console.log(result);
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                err:err
+            });
+        });
 });
 //data delete
 router.delete('/:pID',(req,res) => {
