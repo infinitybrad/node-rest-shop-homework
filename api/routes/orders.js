@@ -8,13 +8,30 @@ const productModel = require("../models/product");
 
 // data get 
 router.get('/',(req,res) => {
-    res.status(200).json({
-        msg:'sucess get orders'
-    });
+    // res.status(200).json({
+    //     msg:'sucess get orders'
+    // });
+
+    orderModel
+        .find()
+        .exec()
+        .then(docs => {
+            res.status(200).json({
+                count:docs.length,
+                orderList:docs
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error:err
+            })
+        });
+
 });
 
 // data create
-router.post('/',(req,res) => {
+router.post('/',(req,res) => { // 장바구니에 제품 담기.
     // res.status(200).json({
     //     msg:'sucess post orders'
     // });
