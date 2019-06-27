@@ -109,10 +109,65 @@ router.post('/',(req,res) => { // 장바구니에 제품 담기.
 
 
 // data patch
-router.patch('/',(req,res) => {
-    res.status(200).json({
-        msg:'patch orders'
-    });
+router.patch('/:orderID',(req,res) => {
+
+
+    const id =  req.params.orderID;
+
+    const updateOps={};
+
+    //updateOps[_id] = req.params.orderID;
+    //updateOps[product] = orderModel.findById(req.params.orderID).product;
+    orderModel
+        .findById(id)
+        .exec()
+        .then(result => {
+            if(!result)
+            {
+                return res.status(404).json({
+                    msg:"find not id"
+                });
+            }
+            else{
+
+                res.status(200).json({
+                    msg:"find order id ",
+                    info :result
+
+                });
+                 updateOps["_id"] = result._id;
+                 updateOps["product"] = result.product;
+                 updateOps["quantity"] = req.body.value;
+                 console.log(updateOps);
+
+                 orderModel
+                    .update({_id:id},{$set:updateOps})
+                    .exec()
+                    .then(result =>{
+                        console.log(result);
+                        res.status(200).json(result);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({
+                            err:err
+                        });
+                    });
+                
+            }
+
+        })
+        .catch(err =>{
+            console.log(err);
+            res.status(500).json({
+                error:err
+            });
+
+        });
+    
+
+    
+
 });
 
 
