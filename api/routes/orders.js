@@ -16,10 +16,29 @@ router.get('/',(req,res) => {
         .find()
         .exec()
         .then(docs => {
-            res.status(200).json({
+            // res.status(200).json({
+            //     count:docs.length,
+            //     orderList:docs
+            // });
+
+            const response = {
                 count:docs.length,
-                orderList:docs
-            });
+                orderList:docs.map(doc => {
+
+                    return{
+                        _id:doc._id,
+                        product:doc.product,
+                        quantity:doc.quantity,
+                        request:{
+                            type:"GET",
+                            url:"http://localhost:3000/orders/"+doc._id
+                        }
+
+
+                    }
+                })
+            }
+            res.status(200).json(response);
         })
         .catch(err => {
             console.log(err);
@@ -48,7 +67,12 @@ router.get('/:orderID',(req,res) => { // 장바구니 한개의 데이터 불러
             }
             res.status(200).json({
                 msg:"successful order detail info ",
-                orderInfo:result
+                orderInfo:result,
+                request:{
+                    type:"GET",
+                    url:"http://localhost:3000/orders"
+                }
+
             });
 
         })
@@ -93,7 +117,12 @@ router.post('/',(req,res) => { // 장바구니에 제품 담기.
                     _id:result.id,
                     product:result.product,
                     quantity:result.quantity
+                },
+                request:{
+                    type:"GET",
+                    url:"http://localhost:3000/orders/"
                 }
+
             })
         })
         .catch(err => {
@@ -130,32 +159,36 @@ router.patch('/:orderID',(req,res) => {
             }
             else{
 
-                res.status(200).json({
-                    msg:"find order id ",
-                    info :result
-
-                });
                  updateOps["_id"] = result._id;
                  updateOps["product"] = result.product;
                  updateOps["quantity"] = req.body.value;
                  console.log(updateOps);
 
-                 orderModel
-                    .update({_id:id},{$set:updateOps})
-                    .exec()
-                    .then(result =>{
-                        console.log(result);
-                        res.status(200).json(result);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({
-                            err:err
-                        });
-                    });
                 
             }
 
+        })
+        .then( result2 => {
+
+            orderModel
+                .update({_id:id},{$set:updateOps})
+                .exec()
+                .then(result =>{
+                    console.log(result);
+                    res.status(200).json({
+                        msg:"order upadated",
+                        request:{
+                            type:"GET",
+                            url:"http://localhost:3000/orders/"+id
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        err:err
+                    });
+                });
         })
         .catch(err =>{
             console.log(err);
@@ -183,7 +216,13 @@ router.delete('/:orderID',(req,res) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                msg:"deleted order"
+                msg:"deleted order",
+                request:{
+                    type:"POST",
+                    url:"http://localhost:3000/orders",
+                    body:{product:"productID", quantity:"Number"}
+                }
+
             });
         })
         .catch(err => {
