@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
+
 
 const db= 'mongodb+srv://testREST:1234@cluster0-pmhnw.mongodb.net/test?retryWrites=true&w=majority';
 
@@ -26,6 +28,8 @@ app.use(morgan('dev'));
 
 app.use('/products',productRoutes);
 app.use('/orders',ordersRoutes);
+app.use('/users',userRoutes);
+
 
 
 
