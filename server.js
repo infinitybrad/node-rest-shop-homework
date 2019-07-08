@@ -15,7 +15,7 @@ const userRoutes = require('./api/routes/users');
 const db= 'mongodb+srv://testREST:1234@cluster0-pmhnw.mongodb.net/test?retryWrites=true&w=majority';
 
 
-mongoose.connect(db,{useNewUrlParser:true})
+mongoose.connect(db,{useNewUrlParser:true , useCreateIndex:true})
     .then(() => console.log("MongoDB Connected..."))
     .catch(err => console.log(err));
 
