@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const productModel = require("../models/product");
-
+const checkAuth = require("../middleware/check-auth");
 
 //data get
 router.get('/',(req,res) => {
@@ -84,7 +84,7 @@ router.get('/:pID',(req,res) => {
 });
 
 //data create
-router.post ('/',(req,res) => {
+router.post ('/',checkAuth,(req,res) => {
 
 
     // const product = {
@@ -124,7 +124,7 @@ router.post ('/',(req,res) => {
         });
 });
 //data patch
-router.patch('/:pID',(req,res) =>{
+router.patch('/:pID',checkAuth,(req,res) =>{
     // res.status(200).json({
     //     msg:'modify product'
     // });
@@ -160,7 +160,7 @@ router.patch('/:pID',(req,res) =>{
         });
 });
 //data delete
-router.delete('/:pID',(req,res) => {
+router.delete('/:pID',checkAuth,(req,res) => {
     // res.status(200).json({
     //     msg:'delete product'
     // });

@@ -5,9 +5,11 @@ const mongoose = require("mongoose");
 const orderModel= require("../models/order");
 const productModel = require("../models/product");
 
+const checkAuth = require("../middleware/check-auth");
+
 
 // data get 
-router.get('/',(req,res) => {
+router.get('/',checkAuth,(req,res) => {
     // res.status(200).json({
     //     msg:'sucess get orders'
     // });
@@ -50,7 +52,7 @@ router.get('/',(req,res) => {
 });
 
 //get detail data
-router.get('/:orderID',(req,res) => { // 장바구니 한개의 데이터 불러오기
+router.get('/:orderID',checkAuth,(req,res) => { // 장바구니 한개의 데이터 불러오기
 
     const id =  req.params.orderID;
 
@@ -87,7 +89,7 @@ router.get('/:orderID',(req,res) => { // 장바구니 한개의 데이터 불러
 
 });
 // data create
-router.post('/',(req,res) => { // 장바구니에 제품 담기.
+router.post('/',checkAuth,(req,res) => { // 장바구니에 제품 담기.
     // res.status(200).json({
     //     msg:'sucess post orders'
     // });
@@ -205,7 +207,7 @@ router.patch('/:orderID',(req,res) => {
 
 
 //detail data delete
-router.delete('/:orderID',(req,res) => {
+router.delete('/:orderID',checkAuth,(req,res) => {
     // res.status(200).json({
     //     msg:'sucess delete orders'
     // });
